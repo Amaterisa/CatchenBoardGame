@@ -14,8 +14,8 @@ namespace General.View
 
     public class View3D : MonoBehaviour
     {
-        [SerializeField] private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
-        [SerializeField] private List<TextMeshPro> textMeshPros = new List<TextMeshPro>();
+        [SerializeField] protected List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
+        [SerializeField] protected List<TextMeshPro> textMeshPros = new List<TextMeshPro>();
         [SerializeField] private float fadeDuration = 0.25f;
         private Coroutine fadeCoroutine;
         private static readonly int Color = Shader.PropertyToID("_Color");
