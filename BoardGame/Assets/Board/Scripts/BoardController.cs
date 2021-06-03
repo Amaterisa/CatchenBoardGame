@@ -5,9 +5,8 @@ namespace Board.Scripts
 {
     public class BoardController : MonoBehaviour
     {
-        [SerializeField] private BoardPieceView pieceView;
         [SerializeField] private List<BoardPieceData> boardPieceDatas = new List<BoardPieceData>();
-        [SerializeField] private List<BoardPiece> boardPieces = new List<BoardPiece>();
+        [SerializeField] private List<BoardPieceController> boardPieces = new List<BoardPieceController>();
 
         private void Start()
         {
@@ -21,16 +20,6 @@ namespace Board.Scripts
                 piece.SetBoardPieceData(boardPieceDatas[i]);
                 piece.Populate();
             }
-        }
-
-        private void ShowCurrentBoardImage()
-        {
-            pieceView.Show();
-        }
-
-        private void HideCurrentBoardImage()
-        {
-            pieceView.Hide();
         }
     }
 }

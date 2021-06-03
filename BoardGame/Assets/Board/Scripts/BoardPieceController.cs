@@ -2,7 +2,7 @@
 
 namespace Board.Scripts
 {
-    public class BoardPiece: MonoBehaviour
+    public class BoardPieceController: MonoBehaviour
     {
         [SerializeField] private BoardPieceView view;
         private BoardPieceData data;
@@ -15,6 +15,7 @@ namespace Board.Scripts
         public void Populate()
         {
             view.SetTexture(data.Texture);
+            view.SetText(data.Description);
         }
     }
 }
