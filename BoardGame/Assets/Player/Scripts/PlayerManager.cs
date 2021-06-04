@@ -15,22 +15,24 @@ namespace Player.Scripts
         {
             EventManager.Register<PlayerController>(PlayerManagerEvents.AddPlayer, AddPlayer);
             EventManager.Register<PlayerController>(PlayerManagerEvents.RemovePlayer, RemovePlayer);
-            EventManager.Register<float, Vector3>(PlayerManagerEvents.Move, Move);
-            EventManager.Register<PlayerController>(PlayerManagerEvents.SetCurrentPlayer, SetCurrentPlayer);
+            EventManager.Register<float, Vector3, Action>(PlayerManagerEvents.Move, Move);
+            EventManager.Register(PlayerManagerEvents.GoToNextPlayer, GoToNextPlayer);
         }
 
         private void OnDestroy()
         {
             EventManager.Unregister<PlayerController>(PlayerManagerEvents.AddPlayer, AddPlayer);
             EventManager.Unregister<PlayerController>(PlayerManagerEvents.RemovePlayer, RemovePlayer);
-            EventManager.Unregister<float, Vector3>(PlayerManagerEvents.Move, Move);
-            EventManager.Unregister<PlayerController>(PlayerManagerEvents.SetCurrentPlayer, SetCurrentPlayer);
+            EventManager.Unregister<float, Vector3, Action>(PlayerManagerEvents.Move, Move);
+            EventManager.Unregister(PlayerManagerEvents.GoToNextPlayer, GoToNextPlayer);
         }
 
         private void AddPlayer(PlayerController player)
         {
             if (!playerList.Contains(player))
                 playerList.Add(player);
+            if (currentPlayer == default)
+                currentPlayer = player;
         }
         
         private void RemovePlayer(PlayerController player)
@@ -39,14 +41,15 @@ namespace Player.Scripts
                 playerList.Add(player);
         }
 
-        private void Move(float distance, Vector3 forward)
+        private void Move(float distance, Vector3 forward, Action callback)
         {
-            currentPlayer.Move(distance, forward);
+            currentPlayer.Move(distance, forward, callback);
         }
         
-        private void SetCurrentPlayer(PlayerController player)
+        private void GoToNextPlayer()
         {
-            currentPlayer = player;
+            var index = playerList.IndexOf(currentPlayer);
+            currentPlayer = playerList[(index + 1) % playerList.Count];
         }
     }
 }

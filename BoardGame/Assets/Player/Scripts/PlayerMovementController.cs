@@ -15,12 +15,12 @@ namespace Player.Scripts
 
         private void Awake()
         {
-            context.Register<float, Vector3>(PlayerMovementEvents.Move, Move);
+            context.Register<float, Vector3, Action>(PlayerMovementEvents.Move, Move);
         }
 
         private void OnDestroy()
         {
-            context.Register<float, Vector3>(PlayerMovementEvents.Move, Move);
+            context.Register<float, Vector3, Action>(PlayerMovementEvents.Move, Move);
         }
 
         private void Update()
@@ -29,11 +29,11 @@ namespace Player.Scripts
             {
                 var finalPos = transform.localPosition - transform.forward * 2f;
                 var rot = transform.forward;
-                StartCoroutine(MoveCoroutine(transform.localPosition, finalPos));
+                StartCoroutine(MoveCoroutine(transform.localPosition, finalPos, null));
             }
         }
 
-        private void Move(float distance, Vector3 forward)
+        private void Move(float distance, Vector3 forward, Action callback)
         {
             transform.forward = forward;
             var initialPosition = transform.localPosition;
@@ -41,10 +41,10 @@ namespace Player.Scripts
             var finalPosition = new Vector3(finalX, initialPosition.y, initialPosition.z);
             if (moveCoroutine != null)
                 StopCoroutine(moveCoroutine);
-            moveCoroutine = StartCoroutine(MoveCoroutine(initialPosition, finalPosition));
+            moveCoroutine = StartCoroutine(MoveCoroutine(initialPosition, finalPosition, callback));
         }
 
-        private IEnumerator MoveCoroutine(Vector3 initialPosition, Vector3 finalPosition)
+        private IEnumerator MoveCoroutine(Vector3 initialPosition, Vector3 finalPosition, Action callback)
         {
             var k = ParabolicCalculator.CalculateParabolicConstant(initialPosition.x, finalPosition.x);
             var t = 0.0f;
@@ -59,6 +59,7 @@ namespace Player.Scripts
             }
 
             transform.localPosition = finalPosition;
+            callback?.Invoke();
         }
     }
 }
