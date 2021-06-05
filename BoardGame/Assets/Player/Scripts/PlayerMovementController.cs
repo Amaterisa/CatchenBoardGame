@@ -18,11 +18,6 @@ namespace Player.Scripts
             context.Register<float, Vector3, Action>(PlayerMovementEvents.Move, Move);
         }
 
-        private void OnDestroy()
-        {
-            context.Register<float, Vector3, Action>(PlayerMovementEvents.Move, Move);
-        }
-
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.A))

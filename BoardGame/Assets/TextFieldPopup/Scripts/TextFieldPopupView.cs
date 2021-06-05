@@ -1,6 +1,7 @@
 ﻿using General.View;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
@@ -8,7 +9,7 @@ namespace TextFieldPopup.Scripts
 {
     public class TextFieldPopupView : View
     {
-        private TextField textField;
+        [SerializeField] private InputField inputField;
         [SerializeField] private Button confirmButton;
         [SerializeField] private Button cancelButton;
 
@@ -23,10 +24,15 @@ namespace TextFieldPopup.Scripts
             cancelButton.onClick.RemoveAllListeners();
             cancelButton.onClick.AddListener(action);
         }
-
+        
         public string GetText()
         {
-            return textField.value;
+            return inputField.text;
+        }
+
+        public void ClearTextField()
+        {
+            inputField.text = "";
         }
     }
 }

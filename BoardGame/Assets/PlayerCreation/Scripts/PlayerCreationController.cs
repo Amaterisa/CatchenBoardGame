@@ -11,25 +11,39 @@ namespace PlayerCreation.Scripts
     {
         [SerializeField] private PlayerCreationView view;
         [SerializeField] private GameObject playerPrefab;
+        [SerializeField] private Transform storage;
         [SerializeField] private float distance = 4f;
         private int maxPlayers = 6;
         private int playersCount;
         private readonly List<Color> colors = new List<Color>{Color.red, Color.blue, Color.green, Color.yellow, Color.magenta, Color.cyan};
 
+        private void Awake()
+        {
+            EventManager.Register<string>(PlayerCreationEvents.ConfirmPlayerCreation, ConfirmPlayerCreation);
+            EventManager.Register(PlayerCreationEvents.Hide, Hide);
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.Unregister<string>(PlayerCreationEvents.ConfirmPlayerCreation, ConfirmPlayerCreation);
+            EventManager.Unregister(PlayerCreationEvents.Hide, Hide);
+        }
+
         private void Start()
         {
             view.SetClickListener(AddButtonClicked);
+            view.PushButton(distance * (- maxPlayers / 2f + 0.5f));
         }
 
         private void AddButtonClicked()
         {
-            //show popup with text field
+            EventManager.Trigger(TextFieldPopupEvents.Show);
         }
 
         private void ConfirmPlayerCreation(string text)
         {
-            var position = transform.position + transform.right * distance * playersCount;
-            var player = Instantiate(playerPrefab, position, Quaternion.identity, transform).GetComponent<PlayerController>();;
+            var position = storage.position + transform.right * distance * (playersCount - maxPlayers / 2 + 0.5f);
+            var player = Instantiate(playerPrefab, position, Quaternion.identity).GetComponent<PlayerController>();
             SetupPlayer(player, text);
             EventManager.Trigger(PlayerManagerEvents.AddPlayer, player);
             playersCount++;
@@ -40,7 +54,7 @@ namespace PlayerCreation.Scripts
         {
             if (playersCount < maxPlayers)
             {
-                view.PushButton(distance * playersCount);
+                view.PushButton(distance * (playersCount - maxPlayers / 2 + 0.5f));
             }
             else
             {
@@ -52,6 +66,11 @@ namespace PlayerCreation.Scripts
         {
             player.SetName(text);
             player.SetColor(colors[playersCount]);
+        }
+
+        private void Hide()
+        {
+            view.Hide();
         }
     }
 }

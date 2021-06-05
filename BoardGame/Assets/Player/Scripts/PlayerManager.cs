@@ -30,7 +30,10 @@ namespace Player.Scripts
         private void AddPlayer(PlayerController player)
         {
             if (!playerList.Contains(player))
+            {
                 playerList.Add(player);
+                player.transform.SetParent(transform);
+            }
             if (currentPlayer == default)
                 currentPlayer = player;
         }
@@ -38,7 +41,10 @@ namespace Player.Scripts
         private void RemovePlayer(PlayerController player)
         {
             if (playerList.Contains(player))
+            {
                 playerList.Add(player);
+                Destroy(player.gameObject);
+            }
         }
 
         private void Move(float distance, Vector3 forward, Action callback)

@@ -17,7 +17,7 @@ namespace PlayerCreation.Scripts
 
         public void PushButton(float distance)
         {
-            addPlayerButton.transform.localPosition += Vector3.right * distance;
+            transform.position = transform.right * distance;
         }
     }
 }

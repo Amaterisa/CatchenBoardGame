@@ -582,6 +582,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 1774957355368990142}
+  textMeshPro: {fileID: 0}
 --- !u!1 &218148610056170514
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,6 +803,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 9083335540716039652}
+  textMeshPro: {fileID: 0}
 --- !u!1 &269134106202373522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,6 +1058,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 7223702580078533181}
+  textMeshPro: {fileID: 0}
 --- !u!1 &590107260309793892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,6 +1596,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5522724288010117782}
+  textMeshPro: {fileID: 0}
 --- !u!1 &1117558246382831515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,6 +1648,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 7527009839745987059}
+  textMeshPro: {fileID: 0}
 --- !u!1 &1205648703716143890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2182,6 +2187,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 4860900348217458099}
+  textMeshPro: {fileID: 0}
 --- !u!1 &1483692335491254285
 GameObject:
   m_ObjectHideFlags: 0
@@ -2233,6 +2239,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5971645152825912300}
+  textMeshPro: {fileID: 0}
 --- !u!1 &1500064235918748789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2284,6 +2291,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 3220155282072861318}
+  textMeshPro: {fileID: 0}
 --- !u!1 &1514819118903320855
 GameObject:
   m_ObjectHideFlags: 0
@@ -3443,6 +3451,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 4802492270250105750}
+  textMeshPro: {fileID: 0}
 --- !u!1 &2067710380765607045
 GameObject:
   m_ObjectHideFlags: 0
@@ -3902,6 +3911,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 3863357526542754776}
+  textMeshPro: {fileID: 0}
 --- !u!1 &2297446320493958803
 GameObject:
   m_ObjectHideFlags: 0
@@ -4236,6 +4246,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 3079384291150371022}
+  textMeshPro: {fileID: 0}
 --- !u!1 &2571182879149941471
 GameObject:
   m_ObjectHideFlags: 0
@@ -4287,6 +4298,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 8408054705585274244}
+  textMeshPro: {fileID: 0}
 --- !u!1 &2609584384096917867
 GameObject:
   m_ObjectHideFlags: 0
@@ -4338,6 +4350,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5818650878451533617}
+  textMeshPro: {fileID: 0}
 --- !u!1 &2613799209960046904
 GameObject:
   m_ObjectHideFlags: 0
@@ -4796,6 +4809,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5400385292823171716}
+  textMeshPro: {fileID: 0}
 --- !u!1 &2825278051181888724
 GameObject:
   m_ObjectHideFlags: 0
@@ -5300,6 +5314,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 7618076418308041919}
+  textMeshPro: {fileID: 0}
 --- !u!1 &2944425213434548207
 GameObject:
   m_ObjectHideFlags: 0
@@ -6641,6 +6656,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5467313160309304004}
+  textMeshPro: {fileID: 0}
 --- !u!1 &3654451741297122073
 GameObject:
   m_ObjectHideFlags: 0
@@ -7619,6 +7635,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 1522791865854545323}
+  textMeshPro: {fileID: 0}
 --- !u!1 &4239759605065498895
 GameObject:
   m_ObjectHideFlags: 0
@@ -7715,6 +7732,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 698109388605898898}
+  textMeshPro: {fileID: 0}
 --- !u!1 &4330175750953263685
 GameObject:
   m_ObjectHideFlags: 0
@@ -7766,6 +7784,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 2279549403709011172}
+  textMeshPro: {fileID: 0}
 --- !u!1 &4336956181651968392
 GameObject:
   m_ObjectHideFlags: 0
@@ -9162,6 +9181,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 8604856109641445862}
+  textMeshPro: {fileID: 0}
 --- !u!1 &5600809616428172246
 GameObject:
   m_ObjectHideFlags: 0
@@ -9870,6 +9890,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 2831213255176905502}
+  textMeshPro: {fileID: 0}
 --- !u!1 &5737657950422153681
 GameObject:
   m_ObjectHideFlags: 0
@@ -9921,6 +9942,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 2108639588023224153}
+  textMeshPro: {fileID: 0}
 --- !u!1 &5811847840317530767
 GameObject:
   m_ObjectHideFlags: 0
@@ -11477,6 +11499,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5811041351574402936}
+  textMeshPro: {fileID: 0}
 --- !u!1 &6495532770945396112
 GameObject:
   m_ObjectHideFlags: 0
@@ -11652,6 +11675,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 6927082799316981940}
+  textMeshPro: {fileID: 0}
 --- !u!1 &6574540647898818008
 GameObject:
   m_ObjectHideFlags: 0
@@ -11933,7 +11957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d7e6111df048daaf78ec2bb867980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieceView: {fileID: 0}
   boardPieceDatas: []
   boardPieces: []
 --- !u!1 &6728969308183717232
@@ -11952,7 +11975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6728969308183717233
 Transform:
   m_ObjectHideFlags: 0
@@ -12070,6 +12093,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 2018085152383046749}
+  textMeshPro: {fileID: 0}
 --- !u!1 &6898542878335471082
 GameObject:
   m_ObjectHideFlags: 0
@@ -12166,6 +12190,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 4117501454585896535}
+  textMeshPro: {fileID: 0}
 --- !u!1 &6907874796044682535
 GameObject:
   m_ObjectHideFlags: 0
@@ -13019,6 +13044,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 1113274382513522546}
+  textMeshPro: {fileID: 0}
 --- !u!1 &7516467786144811586
 GameObject:
   m_ObjectHideFlags: 0
@@ -13838,6 +13864,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5436445521575447222}
+  textMeshPro: {fileID: 0}
 --- !u!1 &8037081079121951301
 GameObject:
   m_ObjectHideFlags: 0
@@ -13889,6 +13916,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 1099026374126497091}
+  textMeshPro: {fileID: 0}
 --- !u!1 &8146240216711768521
 GameObject:
   m_ObjectHideFlags: 0
@@ -14064,6 +14092,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 4810403609767703029}
+  textMeshPro: {fileID: 0}
 --- !u!1 &8324419546499147260
 GameObject:
   m_ObjectHideFlags: 0
@@ -14273,6 +14302,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5361356930784439435}
+  textMeshPro: {fileID: 0}
 --- !u!1 &8467196243699470086
 GameObject:
   m_ObjectHideFlags: 0
@@ -14652,6 +14682,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 5954316018252152140}
+  textMeshPro: {fileID: 0}
 --- !u!1 &8572776383043612729
 GameObject:
   m_ObjectHideFlags: 0
@@ -15075,6 +15106,7 @@ MonoBehaviour:
   textMeshPros: []
   fadeDuration: 0.25
   meshRenderer: {fileID: 6808532888435734789}
+  textMeshPro: {fileID: 0}
 --- !u!1 &8874315375187320861
 GameObject:
   m_ObjectHideFlags: 0
