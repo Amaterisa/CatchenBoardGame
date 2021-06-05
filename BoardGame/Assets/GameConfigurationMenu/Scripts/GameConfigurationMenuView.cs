@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using General.View;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace GameConfigurationMenu.Scripts
 {
-    public class GameConfigurationMenuView : MonoBehaviour
+    public class GameConfigurationMenuView : View
     {
         [SerializeField] private Button startGameButton;
         [SerializeField] private Button backButton;

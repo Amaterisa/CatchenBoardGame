@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Events;
+using General.EventManager;
 using UnityEngine;
 
 namespace Board.Scripts
@@ -7,10 +10,30 @@ namespace Board.Scripts
     {
         [SerializeField] private List<BoardPieceData> boardPieceDatas = new List<BoardPieceData>();
         [SerializeField] private List<BoardPieceController> boardPieces = new List<BoardPieceController>();
+        [SerializeField] private GameObject content;
 
-        private void Start()
+        private void Awake()
         {
+            Hide();
             PopulateBoard();
+            EventManager.Register<List<Transform>>(BoardEvents.PositionPlayers, PositionPlayers);
+            EventManager.Register(BoardEvents.Show, Show);
+        }
+
+        private void OnDestroy()
+        {
+            EventManager.Unregister<List<Transform>>(BoardEvents.PositionPlayers, PositionPlayers);
+            EventManager.Unregister(BoardEvents.Show, Show);
+        }
+
+        private void Show()
+        {
+            content.SetActive(true);
+        }
+
+        private void Hide()
+        {
+            content.SetActive(false);
         }
 
         private void PopulateBoard()
@@ -19,6 +42,16 @@ namespace Board.Scripts
                 var piece = boardPieces[i];
                 piece.SetBoardPieceData(boardPieceDatas[i]);
                 piece.Populate();
+            }
+        }
+        
+        private void PositionPlayers(List<Transform> players)
+        {
+            var firstPiecePosition = boardPieces[0].transform.position;
+            foreach (var player in players)
+            {
+                player.position = firstPiecePosition;
+                player.forward = -boardPieces[0].transform.forward;
             }
         }
     }

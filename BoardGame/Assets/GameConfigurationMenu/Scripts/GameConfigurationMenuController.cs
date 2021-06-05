@@ -17,13 +17,15 @@ namespace GameConfigurationMenu.Scripts
 
         private void StartGame()
         {
+            view.Hide();
             EventManager.Trigger(PlayerCreationEvents.Hide);
             EventManager.Trigger(BoardEvents.Show);
+            EventManager.Trigger(PlayerManagerEvents.PositionPlayers);
         }
 
         private void Back()
         {
-            
+            //TODO: load menu
         }
     }
 }

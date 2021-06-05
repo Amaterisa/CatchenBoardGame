@@ -321,6 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1537f67f512104da3b3b1a4b1001e763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 2735916972389505488}
+  fadeDuration: 0.25
   startGameButton: {fileID: 2735916971766451739}
   backButton: {fileID: 2735916973416482910}
 --- !u!1 &2735916972615881646

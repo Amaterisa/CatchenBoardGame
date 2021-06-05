@@ -15,7 +15,7 @@ namespace Board.Scripts
         public void Populate()
         {
             view.SetTexture(data.Texture);
-            view.SetText(data.Description);
+            //view.SetText(data.Description);
         }
     }
 }

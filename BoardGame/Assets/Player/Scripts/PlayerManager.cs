@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Events;
 using General.EventManager;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Player.Scripts
             EventManager.Register<PlayerController>(PlayerManagerEvents.RemovePlayer, RemovePlayer);
             EventManager.Register<float, Vector3, Action>(PlayerManagerEvents.Move, Move);
             EventManager.Register(PlayerManagerEvents.GoToNextPlayer, GoToNextPlayer);
+            EventManager.Register(PlayerManagerEvents.PositionPlayers, PositionPlayers);
         }
 
         private void OnDestroy()
@@ -25,6 +27,7 @@ namespace Player.Scripts
             EventManager.Unregister<PlayerController>(PlayerManagerEvents.RemovePlayer, RemovePlayer);
             EventManager.Unregister<float, Vector3, Action>(PlayerManagerEvents.Move, Move);
             EventManager.Unregister(PlayerManagerEvents.GoToNextPlayer, GoToNextPlayer);
+            EventManager.Unregister(PlayerManagerEvents.PositionPlayers, PositionPlayers);
         }
 
         private void AddPlayer(PlayerController player)
@@ -56,6 +59,12 @@ namespace Player.Scripts
         {
             var index = playerList.IndexOf(currentPlayer);
             currentPlayer = playerList[(index + 1) % playerList.Count];
+        }
+
+        private void PositionPlayers()
+        {
+            var playersTransform = playerList.Select(player => player.transform).ToList();
+            EventManager.Trigger(BoardEvents.PositionPlayers, playersTransform);
         }
     }
 }
