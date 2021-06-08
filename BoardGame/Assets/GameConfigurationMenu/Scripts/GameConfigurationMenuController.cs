@@ -36,6 +36,8 @@ namespace GameConfigurationMenu.Scripts
             EventManager.Trigger(BoardEvents.Show);
             EventManager.Trigger(PlayerManagerEvents.PositionPlayers);
             EventManager.Trigger(CameraEvents.EnableFollowTransform, true);
+            EventManager.Trigger(TurnEvents.CanReceiveInput, true);
+            EventManager.Trigger(TurnEvents.Show);
         }
 
         private void Back()

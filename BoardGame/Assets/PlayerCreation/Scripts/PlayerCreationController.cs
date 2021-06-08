@@ -65,7 +65,7 @@ namespace PlayerCreation.Scripts
 
         private void SetupPlayer(PlayerController player, string text)
         {
-            player.SetName(text);
+            player.SetName(String.IsNullOrEmpty(text) ? "Jogador " + playersCount : text);
             player.SetColor(colors[playersCount]);
         }
 

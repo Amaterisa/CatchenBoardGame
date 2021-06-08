@@ -12,6 +12,7 @@ namespace Dice.Scripts
         [SerializeField] private View3D view;
         [SerializeField] private Rigidbody rb;
         [SerializeField] private Vector3 offset = new Vector3(0, -0.5f, 3f);
+        private float delay = 0.5f;
 
         private void Awake()
         {
@@ -25,27 +26,36 @@ namespace Dice.Scripts
             EventManager.Unregister(DiceEvents.Hide, Hide);
         }
 
+        private void Start()
+        {
+            view.HideInstantly();
+            EventManager.Trigger<Action>(TurnEvents.SetInputAction, OnInputDown);
+        }
+
+        private void OnInputDown()
+        {
+            Show();
+            EventManager.Trigger(TurnEvents.SetText, "");
+        }
+
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Reset();
-                RollDice();
-
-            }
+            Reset();
         }
 
         private void Show()
         {
             Reset();
             view.Show();
+            CancelInvoke();
+            Invoke(nameof(RollDice), delay);
         }
 
         private void Hide()
         {
             view.Hide();
         }
-
+        
         private void RollDice()
         {
             rb.transform.localPosition = Vector3.zero;

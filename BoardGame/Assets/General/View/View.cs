@@ -12,12 +12,12 @@ namespace General.View
 
         public void Show(Action callback = null)
         {
-            canvasGroup.gameObject.SetActive(true);
+            gameObject.SetActive(true);
             StopFadeCoroutine();
             fadeCoroutine = StartCoroutine(FadeCoroutine(0f, 1f, () =>
             {
                 callback?.Invoke();
-                canvasGroup.gameObject.SetActive(true);
+                gameObject.SetActive(true);
             }));
         }
 
@@ -27,20 +27,20 @@ namespace General.View
             fadeCoroutine = StartCoroutine(FadeCoroutine(1f, 0f, () =>
             {
                 callback?.Invoke();
-                canvasGroup.gameObject.SetActive(false);
+                gameObject.SetActive(false);
             }));
         }
 
         public void ShowInstantly()
         {
             canvasGroup.alpha = 1f;
-            canvasGroup.gameObject.SetActive(true);
+            gameObject.SetActive(true);
         }
 
         public void HideInstantly()
         {
             canvasGroup.alpha = 0f;
-            canvasGroup.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         private IEnumerator FadeCoroutine(float start, float end, Action callback = null)

@@ -17,8 +17,8 @@ namespace Player.Scripts
         public void RotateNameToCamera()
         {
             var cameraTransform = Camera.main.transform;
-            var projectedForward = Vector3.Project(cameraTransform.forward, Vector3.up);
-            nameText.transform.forward = projectedForward;
+            //var projectedForward = Vector3.Project(cameraTransform.forward, Vector3.up);
+            nameText.transform.forward = cameraTransform.forward;
         }
 
         public void SetColor(Color color)
