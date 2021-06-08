@@ -38,7 +38,7 @@ namespace Player.Scripts
                 player.transform.SetParent(transform);
             }
             if (currentPlayer == default)
-                currentPlayer = player;
+                SetCurrentPlayer(player);
         }
         
         private void RemovePlayer(PlayerController player)
@@ -58,13 +58,19 @@ namespace Player.Scripts
         private void GoToNextPlayer()
         {
             var index = playerList.IndexOf(currentPlayer);
-            currentPlayer = playerList[(index + 1) % playerList.Count];
+            SetCurrentPlayer(playerList[(index + 1) % playerList.Count]);
         }
 
         private void PositionPlayers()
         {
             var playersTransform = playerList.Select(player => player.transform).ToList();
             EventManager.Trigger(BoardEvents.PositionPlayers, playersTransform);
+        }
+
+        private void SetCurrentPlayer(PlayerController player)
+        {
+            currentPlayer = player;
+            EventManager.Trigger(CameraEvents.SetReferenceTransform, player.transform);
         }
     }
 }

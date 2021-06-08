@@ -31,11 +31,13 @@ namespace TextFieldPopup.Scripts
         private void Show()
         {
             view.Show();
+            EventManager.Trigger(GameConfigurationMenuEvents.SetButtonsInteractable, false);
         }
 
         private void Hide()
         {
             view.Hide();
+            EventManager.Trigger(GameConfigurationMenuEvents.SetButtonsInteractable, true);
         }
 
         private void CancelClick()

@@ -21,5 +21,15 @@ namespace GameConfigurationMenu.Scripts
             backButton.onClick.RemoveAllListeners();
             backButton.onClick.AddListener(action);
         }
+
+        public void SetStartButtonInteractable(bool interactable)
+        {
+            startGameButton.interactable = interactable;
+        }
+        
+        public void SetBackButtonInteractable(bool interactable)
+        {
+            startGameButton.interactable = interactable;
+        }
     }
 }

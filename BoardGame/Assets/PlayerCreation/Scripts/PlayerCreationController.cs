@@ -48,6 +48,7 @@ namespace PlayerCreation.Scripts
             EventManager.Trigger(PlayerManagerEvents.AddPlayer, player);
             playersCount++;
             HandlePlayerCreation();
+            EventManager.Trigger(GameConfigurationMenuEvents.SetStartButtonInteractable, true);
         }
 
         private void HandlePlayerCreation()
