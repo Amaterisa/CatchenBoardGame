@@ -11,12 +11,13 @@ namespace Player.Scripts
     {
         private readonly List<PlayerController> playerList = new List<PlayerController>();
         private PlayerController currentPlayer;
+        private float distanceToMove = 3.3f;
 
         private void Awake()
         {
             EventManager.Register<PlayerController>(PlayerManagerEvents.AddPlayer, AddPlayer);
             EventManager.Register<PlayerController>(PlayerManagerEvents.RemovePlayer, RemovePlayer);
-            EventManager.Register<float, Vector3, Action>(PlayerManagerEvents.Move, Move);
+            EventManager.Register<int>(PlayerManagerEvents.StartMove, StartMove);
             EventManager.Register(PlayerManagerEvents.GoToNextPlayer, GoToNextPlayer);
             EventManager.Register(PlayerManagerEvents.PositionPlayers, PositionPlayers);
         }
@@ -25,7 +26,7 @@ namespace Player.Scripts
         {
             EventManager.Unregister<PlayerController>(PlayerManagerEvents.AddPlayer, AddPlayer);
             EventManager.Unregister<PlayerController>(PlayerManagerEvents.RemovePlayer, RemovePlayer);
-            EventManager.Unregister<float, Vector3, Action>(PlayerManagerEvents.Move, Move);
+            EventManager.Unregister<int>(PlayerManagerEvents.StartMove, StartMove);
             EventManager.Unregister(PlayerManagerEvents.GoToNextPlayer, GoToNextPlayer);
             EventManager.Unregister(PlayerManagerEvents.PositionPlayers, PositionPlayers);
         }
@@ -50,9 +51,25 @@ namespace Player.Scripts
             }
         }
 
-        private void Move(float distance, Vector3 forward, Action callback)
+        private void StartMove(int count)
         {
-            currentPlayer.Move(distance, forward, callback);
+            var moveForward = count > 0;
+            var movementNumber = Mathf.Abs(count);
+            while (movementNumber > 1)
+            {
+                Move(moveForward);
+                movementNumber--;
+            }
+            Move(moveForward);
+        }
+        
+        private void Move(bool moveForward, Action callback = null)
+        {
+            Transform piece = null;
+            currentPlayer.Piece += moveForward ? 1 : -1;
+            EventManager.Trigger<int, Action<Transform>>(BoardEvents.GetBoardPiece, currentPlayer.Piece,
+                (pieceTransform) => piece = pieceTransform);
+            currentPlayer.Move(distanceToMove, piece.forward, () => callback?.Invoke());
         }
         
         private void GoToNextPlayer()

@@ -18,12 +18,14 @@ namespace Board.Scripts
             PopulateBoard();
             EventManager.Register<List<Transform>>(BoardEvents.PositionPlayers, PositionPlayers);
             EventManager.Register(BoardEvents.Show, Show);
+            EventManager.Register<int, Action<Transform>>(BoardEvents.GetBoardPiece, GetBoardPiece);
         }
 
         private void OnDestroy()
         {
             EventManager.Unregister<List<Transform>>(BoardEvents.PositionPlayers, PositionPlayers);
             EventManager.Unregister(BoardEvents.Show, Show);
+            EventManager.Unregister<int, Action<Transform>>(BoardEvents.GetBoardPiece, GetBoardPiece);
         }
 
         private void Show()
@@ -53,6 +55,11 @@ namespace Board.Scripts
                 player.position = firstPiecePosition;
                 player.forward = -boardPieces[0].transform.forward;
             }
+        }
+
+        private void GetBoardPiece(int number, Action<Transform> action)
+        {
+            action?.Invoke(boardPieces[number].transform);
         }
     }
 }

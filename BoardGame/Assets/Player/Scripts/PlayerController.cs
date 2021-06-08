@@ -9,6 +9,7 @@ namespace Player.Scripts
     {
         [SerializeField] private ContextEventManager context;
         [SerializeField] private PlayerView view;
+        public int Piece { get; set; }
 
         private void Update()
         {

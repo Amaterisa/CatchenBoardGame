@@ -123,7 +123,7 @@ namespace Dice.Scripts
             rolling = false;
             StopAllCoroutines();
             StartCoroutine(DelayCoroutine(Hide));
-            //TODO: trigger player movement
+            EventManager.Trigger(PlayerManagerEvents.StartMove, side);
         }
     }
 }

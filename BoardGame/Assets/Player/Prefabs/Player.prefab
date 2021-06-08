@@ -578,7 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08efe627e170a4ad1a6561bb0c5d949b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  context: {fileID: 0}
+  context: {fileID: 1240675045316495449}
   view: {fileID: 4420407561758944737}
 --- !u!114 &422007985098398519
 MonoBehaviour:
@@ -593,7 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   context: {fileID: 1240675045316495449}
-  duration: 0.5
+  duration: 2
 --- !u!1 &7691598535719533976
 GameObject:
   m_ObjectHideFlags: 0

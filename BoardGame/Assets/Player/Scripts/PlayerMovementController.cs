@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Events;
 using General.EventManager;
 using General.ParabolicCalculator;
@@ -11,36 +12,39 @@ namespace Player.Scripts
     {
         [SerializeField] private ContextEventManager context;
         [SerializeField] private float duration = 0.5f;
-        private Coroutine moveCoroutine;
+        private readonly Queue<IEnumerator> coroutineQueue = new Queue<IEnumerator> ();
 
         private void Awake()
         {
             context.Register<float, Vector3, Action>(PlayerMovementEvents.Move, Move);
         }
-
-        private void Update()
+        
+        void Start()
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            StartCoroutine(CoroutineCoordinator());
+        }
+        
+        IEnumerator CoroutineCoordinator()
+        {
+            while (true)
             {
-                var finalPos = transform.localPosition - transform.forward * 2f;
-                var rot = transform.forward;
-                StartCoroutine(MoveCoroutine(transform.localPosition, finalPos, null));
+                while (coroutineQueue.Count >0)
+                    yield return StartCoroutine(coroutineQueue.Dequeue());
+                yield return null;
             }
         }
 
         private void Move(float distance, Vector3 forward, Action callback)
         {
-            transform.forward = forward;
-            var initialPosition = transform.localPosition;
-            var finalX = initialPosition.x + distance;
-            var finalPosition = new Vector3(finalX, initialPosition.y, initialPosition.z);
-            if (moveCoroutine != null)
-                StopCoroutine(moveCoroutine);
-            moveCoroutine = StartCoroutine(MoveCoroutine(initialPosition, finalPosition, callback));
+            coroutineQueue.Enqueue(MoveCoroutine(distance, forward, callback));
         }
 
-        private IEnumerator MoveCoroutine(Vector3 initialPosition, Vector3 finalPosition, Action callback)
+        private IEnumerator MoveCoroutine(float distance, Vector3 forward, Action callback)
         {
+            transform.forward = -forward;
+            var initialPosition = transform.localPosition;
+            var finalZ = initialPosition.z + distance;
+            var finalPosition = new Vector3(initialPosition.x, initialPosition.y, finalZ);
             var k = ParabolicCalculator.CalculateParabolicConstant(initialPosition.x, finalPosition.x);
             var t = 0.0f;
             while (t < 1f)
