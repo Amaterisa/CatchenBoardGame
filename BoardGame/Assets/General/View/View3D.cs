@@ -109,6 +109,7 @@ namespace General.View
             {
                 textMeshPro.gameObject.SetActive(active);
             }
+            gameObject.SetActive(active);
         }
 
         public void PopulateInInspector()
