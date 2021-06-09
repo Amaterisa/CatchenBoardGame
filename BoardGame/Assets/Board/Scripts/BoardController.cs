@@ -19,6 +19,7 @@ namespace Board.Scripts
             EventManager.Register<List<Transform>>(BoardEvents.PositionPlayers, PositionPlayers);
             EventManager.Register(BoardEvents.Show, Show);
             EventManager.Register<int, Action<Transform>>(BoardEvents.GetBoardPiece, GetBoardPiece);
+            EventManager.Register<int, Action<BoardPieceData>>(BoardEvents.GetBoardPieceData, GetBoardPieceData);
         }
 
         private void OnDestroy()
@@ -26,6 +27,7 @@ namespace Board.Scripts
             EventManager.Unregister<List<Transform>>(BoardEvents.PositionPlayers, PositionPlayers);
             EventManager.Unregister(BoardEvents.Show, Show);
             EventManager.Unregister<int, Action<Transform>>(BoardEvents.GetBoardPiece, GetBoardPiece);
+            EventManager.Unregister<int, Action<BoardPieceData>>(BoardEvents.GetBoardPieceData, GetBoardPieceData);
         }
 
         private void Show()
@@ -60,6 +62,11 @@ namespace Board.Scripts
         private void GetBoardPiece(int number, Action<Transform> action)
         {
             action?.Invoke(boardPieces[number].transform);
+        }
+        
+        private void GetBoardPieceData(int number, Action<BoardPieceData> action)
+        {
+            action?.Invoke(boardPieceDatas[number]);
         }
     }
 }

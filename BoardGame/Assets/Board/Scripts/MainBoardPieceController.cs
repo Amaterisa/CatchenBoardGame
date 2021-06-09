@@ -24,6 +24,11 @@ namespace Board.Scripts
             EventManager.Unregister<Texture, string>(MainBoardPieceEvents.Setup, Setup);
         }
 
+        private void LateUpdate()
+        {
+            SetPositionAndRotationToCamera();
+        }
+
         private void Setup(Texture texture, string text)
         {
             view.SetTexture(texture);
@@ -38,7 +43,7 @@ namespace Board.Scripts
 
         private void Hide()
         {
-            view.Hide();
+            view.HideInstantly();
         }
 
         private void SetPositionAndRotationToCamera()

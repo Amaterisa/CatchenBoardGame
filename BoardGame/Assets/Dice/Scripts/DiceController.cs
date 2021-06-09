@@ -21,25 +21,31 @@ namespace Dice.Scripts
         {
             EventManager.Register(DiceEvents.Show, Show);
             EventManager.Register(DiceEvents.Hide, Hide);
+            EventManager.Register(DiceEvents.SetRollDiceInputAction, SetRollDiceInputAction);
         }
 
         private void OnDestroy()
         {
             EventManager.Unregister(DiceEvents.Show, Show);
             EventManager.Unregister(DiceEvents.Hide, Hide);
+            EventManager.Unregister(DiceEvents.SetRollDiceInputAction, SetRollDiceInputAction);
         }
 
         private void Start()
         {
             view.HideInstantly();
             collisionHandler.TriggerStay = HandleCollision;
-            EventManager.Trigger<Action>(TurnEvents.SetInputAction, OnInputDown);
+            SetRollDiceInputAction();
+        }
+
+        private void SetRollDiceInputAction()
+        {
+            EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, "Toque para rolar o dado", OnInputDown);
         }
 
         private void OnInputDown()
         {
             Show();
-            EventManager.Trigger(TurnEvents.SetText, "");
         }
 
         private void Update()
@@ -51,21 +57,15 @@ namespace Dice.Scripts
         {
             Reset();
             view.Show();
-            StopAllCoroutines();
-            StartCoroutine(DelayCoroutine(RollDice));
+            CancelInvoke();
+            Invoke(nameof(RollDice), delay);
         }
 
         private void Hide()
         {
             view.Hide();
         }
-        
-        private IEnumerator DelayCoroutine(Action action)
-        {
-            yield return new WaitForSeconds(delay);
-            action?.Invoke();
-        }
-        
+
         private void RollDice()
         {
             rolling = true;
@@ -122,8 +122,13 @@ namespace Dice.Scripts
         {
             rolling = false;
             StopAllCoroutines();
-            StartCoroutine(DelayCoroutine(Hide));
-            EventManager.Trigger(PlayerManagerEvents.StartMove, side);
+            StartCoroutine(OnFinishRoll(side));
+        }
+        
+        private IEnumerator OnFinishRoll(int count)
+        {
+            yield return new WaitForSeconds(delay);
+            view.Hide(() => EventManager.Trigger(PlayerManagerEvents.StartMove, count));
         }
     }
 }

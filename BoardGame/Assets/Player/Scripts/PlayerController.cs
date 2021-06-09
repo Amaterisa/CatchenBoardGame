@@ -16,9 +16,9 @@ namespace Player.Scripts
             view.RotateNameToCamera();
         }
 
-        public void Move(float distance, Vector3 forward, Action callback)
+        public void Move(float distance, Transform pieceTransform, Action callback)
         {
-            context.Trigger(PlayerMovementEvents.Move, distance, forward, callback);
+            context.Trigger(PlayerMovementEvents.Move, distance, pieceTransform, callback);
         }
 
         public void SetName(string text)

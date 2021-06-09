@@ -6,8 +6,8 @@ namespace General.EventManager
 {
     public class ContextEventManager: MonoBehaviour
     {
-        private static readonly Dictionary<int, UnityEvent> VoidEvents = new Dictionary<int, UnityEvent>();
-        private static readonly Dictionary<int, object> ArgsEvents = new Dictionary<int, object>();
+        private readonly Dictionary<int, UnityEvent> VoidEvents = new Dictionary<int, UnityEvent>();
+        private readonly Dictionary<int, object> ArgsEvents = new Dictionary<int, object>();
 
         #region Void Events
 

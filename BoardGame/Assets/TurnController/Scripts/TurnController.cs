@@ -15,7 +15,7 @@ namespace TurnController.Scripts
         private void Awake()
         {
             EventManager.Register<bool>(TurnEvents.CanReceiveInput, CanReceiveInput);
-            EventManager.Register<Action>(TurnEvents.SetInputAction, SetInputAction);
+            EventManager.Register<string, Action>(TurnEvents.SetupInputAction, SetupInputAction);
             EventManager.Register<string>(TurnEvents.SetText, SetText);
             EventManager.Register(TurnEvents.Show, view.ShowInstantly);
         }
@@ -28,7 +28,7 @@ namespace TurnController.Scripts
         private void OnDestroy()
         {
             EventManager.Unregister<bool>(TurnEvents.CanReceiveInput, CanReceiveInput);
-            EventManager.Unregister<Action>(TurnEvents.SetInputAction, SetInputAction);
+            EventManager.Unregister<string, Action>(TurnEvents.SetupInputAction, SetupInputAction);
             EventManager.Unregister<string>(TurnEvents.SetText, SetText);
             EventManager.Unregister(TurnEvents.Show, view.ShowInstantly);
         }
@@ -38,8 +38,10 @@ namespace TurnController.Scripts
             canReceiveInput = canReceive;
         }
 
-        private void SetInputAction(Action action)
+        private void SetupInputAction(string text, Action action)
         {
+            CanReceiveInput(true);
+            SetText(text);
             inputAction = action;
         }
 
@@ -50,6 +52,7 @@ namespace TurnController.Scripts
 
         private void HandlePointerDown()
         {
+            CanReceiveInput(false);
             inputAction?.Invoke();
         }
 

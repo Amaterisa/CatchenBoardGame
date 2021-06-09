@@ -16,7 +16,7 @@ namespace Player.Scripts
 
         private void Awake()
         {
-            context.Register<float, Vector3, Action>(PlayerMovementEvents.Move, Move);
+            context.Register<float, Transform, Action>(PlayerMovementEvents.Move, Move);
         }
         
         void Start()
@@ -34,30 +34,26 @@ namespace Player.Scripts
             }
         }
 
-        private void Move(float distance, Vector3 forward, Action callback)
+        private void Move(float distance, Transform pieceTransform, Action callback)
         {
-            coroutineQueue.Enqueue(MoveCoroutine(distance, forward, callback));
+            coroutineQueue.Enqueue(MoveCoroutine(distance, pieceTransform, callback));
         }
 
-        private IEnumerator MoveCoroutine(float distance, Vector3 forward, Action callback)
+        private IEnumerator MoveCoroutine(float distance, Transform pieceTransform, Action callback)
         {
-            transform.forward = -forward;
-            var initialPosition = transform.localPosition;
-            var finalZ = initialPosition.z + distance;
-            var finalPosition = new Vector3(initialPosition.x, initialPosition.y, finalZ);
-            var k = ParabolicCalculator.CalculateParabolicConstant(initialPosition.x, finalPosition.x);
+            transform.forward = -pieceTransform.forward;
+            var initialPosition = transform.position;
+            var piecePosition = pieceTransform.position;
+            piecePosition.y = initialPosition.y;
             var t = 0.0f;
             while (t < 1f)
             {
                 t = Mathf.Clamp01(t + Time.deltaTime / duration);
-                //TODO: refine parabolic calculator equation
-                transform.localPosition = Vector3.Lerp(initialPosition, finalPosition, t);
-                //transform.localPosition = ParabolicCalculator.ParabolicFunction(initialPosition, finalPosition, 
-                    //transform.localPosition, k, t);
+                transform.localPosition = Vector3.Lerp(initialPosition, piecePosition, t);
                 yield return null;
             }
 
-            transform.localPosition = finalPosition;
+            transform.localPosition = piecePosition;
             callback?.Invoke();
         }
     }

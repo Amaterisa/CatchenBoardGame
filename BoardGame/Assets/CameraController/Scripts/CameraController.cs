@@ -8,6 +8,7 @@ namespace CameraController.Scripts
     public class CameraController : MonoBehaviour
     {
         [SerializeField] private Vector3 offset = new Vector3(0, 0.4f, 0.4f);
+        [SerializeField] private float lerpFactor = 0.75f;
         private Transform cameraTransform;
         private Transform referenceTransform;
         private bool followTransform;
@@ -29,7 +30,7 @@ namespace CameraController.Scripts
             cameraTransform = Camera.main.transform;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (followTransform && referenceTransform != default)
             {
@@ -40,7 +41,7 @@ namespace CameraController.Scripts
         private void SetPositionAndRotation()
         {
             var position = referenceTransform.position + offset.y * Vector3.up + offset.z * referenceTransform.forward;
-            cameraTransform.position = position;
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, position, lerpFactor * Time.deltaTime);
             cameraTransform.LookAt(referenceTransform.position);
         }
 
