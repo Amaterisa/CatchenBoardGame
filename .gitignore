@@ -63,4 +63,5 @@ crashlytics-build.properties
 BoardGame/obj
 BoardGame/Temp
 BoardGame/Library
+!/[Ll]ibrary/*.asset
 
