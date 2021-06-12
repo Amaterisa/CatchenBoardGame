@@ -8,15 +8,17 @@ namespace Board.Scripts
     {
         [SerializeField] private MeshRenderer meshRenderer;
         [SerializeField] private TextMeshPro textMeshPro;
+        [SerializeField] private TextMeshPro numberText;
 
         public void SetTexture(Texture texture)
         {
             meshRenderer.material.mainTexture = texture;
         }
 
-        public void SetText(string text)
+        public void SetText(string text, string number)
         {
             textMeshPro.text = text;
+            numberText.text = number;
         }
     }
 }

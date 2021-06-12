@@ -12,11 +12,12 @@ namespace Player.Scripts
     {
         [SerializeField] private ContextEventManager context;
         [SerializeField] private float duration = 0.5f;
+        private float delayToCallback = 0.1f;
         private readonly Queue<IEnumerator> coroutineQueue = new Queue<IEnumerator> ();
 
         private void Awake()
         {
-            context.Register<float, Transform, Action>(PlayerMovementEvents.Move, Move);
+            context.Register<Transform, Action>(PlayerMovementEvents.Move, Move);
         }
         
         void Start()
@@ -34,17 +35,17 @@ namespace Player.Scripts
             }
         }
 
-        private void Move(float distance, Transform pieceTransform, Action callback)
+        private void Move(Transform pieceTransform, Action callback)
         {
-            coroutineQueue.Enqueue(MoveCoroutine(distance, pieceTransform, callback));
+            coroutineQueue.Enqueue(MoveCoroutine(pieceTransform, callback));
         }
 
-        private IEnumerator MoveCoroutine(float distance, Transform pieceTransform, Action callback)
+        private IEnumerator MoveCoroutine(Transform pieceTransform, Action callback)
         {
-            transform.forward = -pieceTransform.forward;
             var initialPosition = transform.position;
             var piecePosition = pieceTransform.position;
             piecePosition.y = initialPosition.y;
+            transform.forward = initialPosition - piecePosition;
             var t = 0.0f;
             while (t < 1f)
             {
@@ -54,6 +55,7 @@ namespace Player.Scripts
             }
 
             transform.localPosition = piecePosition;
+            yield return new WaitForSeconds(delayToCallback);
             callback?.Invoke();
         }
     }

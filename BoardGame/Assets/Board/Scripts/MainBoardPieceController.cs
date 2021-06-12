@@ -14,14 +14,14 @@ namespace Board.Scripts
         {
             EventManager.Register(MainBoardPieceEvents.Show, Show);
             EventManager.Register(MainBoardPieceEvents.Hide, Hide);
-            EventManager.Register<Texture, string>(MainBoardPieceEvents.Setup, Setup);
+            EventManager.Register<Texture, string, string>(MainBoardPieceEvents.Setup, Setup);
         }
 
         private void OnDestroy()
         {
             EventManager.Unregister(MainBoardPieceEvents.Show, Show);
             EventManager.Unregister(MainBoardPieceEvents.Hide, Hide);
-            EventManager.Unregister<Texture, string>(MainBoardPieceEvents.Setup, Setup);
+            EventManager.Unregister<Texture, string, string>(MainBoardPieceEvents.Setup, Setup);
         }
 
         private void LateUpdate()
@@ -29,10 +29,10 @@ namespace Board.Scripts
             SetPositionAndRotationToCamera();
         }
 
-        private void Setup(Texture texture, string text)
+        private void Setup(Texture texture, string text, string number)
         {
             view.SetTexture(texture);
-            view.SetText(text);
+            view.SetText(text, number);
         }
 
         private void Show()

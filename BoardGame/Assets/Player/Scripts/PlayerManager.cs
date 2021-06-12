@@ -13,7 +13,6 @@ namespace Player.Scripts
         private readonly List<PlayerController> playerList = new List<PlayerController>();
         private PlayerController currentPlayer;
         private BoardPieceData currentPiece;
-        private float distanceToMove = 3.3f;
 
         private void Awake()
         {
@@ -57,18 +56,15 @@ namespace Player.Scripts
 
         private void StartMove(int count)
         {
-            var moveForward = count > 0;
-            var movementNumber = Mathf.Abs(count);
-            while (movementNumber > 1)
-            {
-                Move(moveForward);
-                movementNumber--;
-            }
-
-            Move(moveForward, ShowPlayerCurrentPiece);
+            Move(count, ShowPlayerCurrentPiece);
+        }
+        
+        private void StartMoveByConsequence(int count)
+        {
+            Move(count, GoToNextPlayer);
         }
 
-        private void StartMoveByConsequence(int count)
+        private void Move(int count, Action callback)
         {
             var moveForward = count > 0;
             var movementNumber = Mathf.Abs(count);
@@ -78,8 +74,7 @@ namespace Player.Scripts
                 movementNumber--;
             }
 
-            Move(moveForward, GoToNextPlayer);
-            Debug.Log(currentPlayer.Piece);
+            Move(moveForward, callback);
         }
         
         private void Move(bool moveForward, Action callback = null)
@@ -88,7 +83,7 @@ namespace Player.Scripts
             currentPlayer.Piece += moveForward ? 1 : -1;
             EventManager.Trigger<int, Action<Transform>>(BoardEvents.GetBoardPiece, currentPlayer.Piece,
                 (pieceTransform) => piece = pieceTransform);
-            currentPlayer.Move(distanceToMove, piece, () => callback?.Invoke());
+            currentPlayer.Move(piece, () => callback?.Invoke());
         }
         
         private void GoToNextPlayer()
@@ -115,7 +110,7 @@ namespace Player.Scripts
         {
             EventManager.Trigger<int, Action<BoardPieceData>>(BoardEvents.GetBoardPieceData, currentPlayer.Piece,
                 (data) => currentPiece = data);
-            EventManager.Trigger(MainBoardPieceEvents.Setup, currentPiece.Texture, currentPiece.Description);
+            EventManager.Trigger(MainBoardPieceEvents.Setup, currentPiece.Texture, currentPiece.Description, currentPlayer.Piece.ToString());
             EventManager.Trigger(MainBoardPieceEvents.Show);
             EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction,"Toque para continuar",  OnFinishMove);
         }

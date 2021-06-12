@@ -41,11 +41,11 @@ namespace Board.Scripts
 
             PositionWithinLine(ref localPosition, 2, 2, false);
 
-            localScale.z = 2 + spacing;
+            localScale.x = 2 + spacing;
             boardPieces[index].localScale = localScale;
-            localPosition.x -= (localScale.z - 1)/ 2;
+            localPosition.x -= (localScale.x - 1)/ 2;
             boardPieces[index].localPosition = localPosition;
-            boardPieces[index].forward = -transform.right;
+            //boardPieces[index].forward = -transform.right;
             index +=1;
             localScale = new Vector3(1, 1, 3 + spacing * 2);
             localPosition = new Vector3(boardPieces[8].localPosition.x, 0, 3 * pieceSpacing);
@@ -60,7 +60,7 @@ namespace Board.Scripts
                 index += 1;
                 localPosition.z = (movingForward ?  i : lineWidth - linesToPosition - i) * pieceSpacing;
                 boardPieces[index].localPosition = localPosition;
-                boardPieces[index].forward = movingForward ? transform.forward : -transform.forward;
+                //boardPieces[index].forward = movingForward ? transform.forward : -transform.forward;
             }
         }
 
@@ -71,7 +71,7 @@ namespace Board.Scripts
                 index += 1;
                 localPosition.x = (movingAscending ? lineHeight - columnsToRemove - i : i + increment) * pieceSpacing;
                 boardPieces[index].localPosition = localPosition;
-                boardPieces[index].forward = movingAscending ? -transform.right : transform.right;
+                //boardPieces[index].forward = movingAscending ? -transform.right : transform.right;
             }
         }
 
@@ -95,9 +95,7 @@ namespace Board.Scripts
                 child.SetParent(null);
                 DestroyImmediate(child.gameObject);
             }
-
         }
-
     }
 
 #if UNITY_EDITOR

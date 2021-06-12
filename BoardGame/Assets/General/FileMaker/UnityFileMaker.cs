@@ -36,7 +36,7 @@ namespace General.FileMaker
         private static void CreateAsset(string fileName, Texture2D texture)
         {
             var unityFile = ScriptableObject.CreateInstance<BoardPieceData>();
-            unityFile.DisplayName = fileName;
+            unityFile.DisplayName = fileName.Replace(".jpg", "");
             unityFile.Texture = texture;
             CreateScriptable(unityFile);
         }

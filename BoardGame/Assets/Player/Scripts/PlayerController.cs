@@ -11,14 +11,14 @@ namespace Player.Scripts
         [SerializeField] private PlayerView view;
         public int Piece { get; set; }
 
-        private void Update()
+        private void LateUpdate()
         {
             view.RotateNameToCamera();
         }
 
-        public void Move(float distance, Transform pieceTransform, Action callback)
+        public void Move(Transform pieceTransform, Action callback)
         {
-            context.Trigger(PlayerMovementEvents.Move, distance, pieceTransform, callback);
+            context.Trigger(PlayerMovementEvents.Move, pieceTransform, callback);
         }
 
         public void SetName(string text)

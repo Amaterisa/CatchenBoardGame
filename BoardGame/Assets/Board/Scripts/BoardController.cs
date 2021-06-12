@@ -61,12 +61,14 @@ namespace Board.Scripts
 
         private void GetBoardPiece(int number, Action<Transform> action)
         {
-            action?.Invoke(boardPieces[number].transform);
+            var index = Mathf.Clamp(number, 0, boardPieces.Count - 1);
+            action?.Invoke(boardPieces[index].transform);
         }
         
         private void GetBoardPieceData(int number, Action<BoardPieceData> action)
         {
-            action?.Invoke(boardPieceDatas[number]);
+            var index = Mathf.Clamp(number, 0, boardPieceDatas.Count - 1);
+            action?.Invoke(boardPieceDatas[index]);
         }
     }
 }
