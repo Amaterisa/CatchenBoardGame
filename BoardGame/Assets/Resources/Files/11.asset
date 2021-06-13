@@ -16,4 +16,4 @@ MonoBehaviour:
   canPlayOnNextRound: 1
   spacesToMove: 0
   texture: {fileID: 2800000, guid: 52b6c7606a9ce4f1ab38d7476c5f1a05, type: 3}
-  description: 
+  description: Todas as meninas bebem

@@ -16,4 +16,4 @@ MonoBehaviour:
   canPlayOnNextRound: 1
   spacesToMove: 0
   texture: {fileID: 2800000, guid: ee77e1c96e1814c8597c305a46f2e531, type: 3}
-  description: 
+  description: Beba o tanto que der no dado

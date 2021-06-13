@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: 10
   canPlayOnNextRound: 1
-  spacesToMove: 0
+  spacesToMove: 2
   texture: {fileID: 2800000, guid: e67d2360c1211413db4018cef408b118, type: 3}
-  description: 
+  description: Beba e avance 2 casas

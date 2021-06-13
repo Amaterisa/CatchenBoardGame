@@ -16,4 +16,4 @@ MonoBehaviour:
   canPlayOnNextRound: 1
   spacesToMove: 0
   texture: {fileID: 2800000, guid: a2ef8d33bef494c418eb1a5889f6cc67, type: 3}
-  description: 
+  description: Mande 2 jogadores beberem
