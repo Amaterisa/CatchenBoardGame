@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Events;
+using General.Consts;
 using General.EventManager;
 using General.View;
 using UnityEngine;
@@ -40,7 +41,7 @@ namespace Dice.Scripts
 
         private void SetRollDiceInputAction()
         {
-            EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, "Toque para rolar o dado", OnInputDown);
+            EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, Consts.TouchToRollTheDice, OnInputDown);
         }
 
         private void OnInputDown()

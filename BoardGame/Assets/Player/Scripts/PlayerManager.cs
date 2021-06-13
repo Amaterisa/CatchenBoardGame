@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Board.Scripts;
 using Events;
+using General.Consts;
 using General.EventManager;
 using UnityEngine;
 
@@ -56,6 +57,12 @@ namespace Player.Scripts
 
         private void StartMove(int count)
         {
+            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, currentPlayer.Piece,
+                (pieceController) =>
+                {
+                    pieceController.RemovePlayer(currentPlayer.transform);
+                    currentPlayer.GoToPosition(pieceController.transform);
+                });
             Move(count, ShowPlayerCurrentPiece);
         }
         
@@ -81,13 +88,14 @@ namespace Player.Scripts
         {
             Transform piece = null;
             currentPlayer.Piece += moveForward ? 1 : -1;
-            EventManager.Trigger<int, Action<Transform>>(BoardEvents.GetBoardPiece, currentPlayer.Piece,
-                (pieceTransform) => piece = pieceTransform);
+            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, currentPlayer.Piece,
+                (pieceController) => piece = pieceController.transform);
             currentPlayer.Move(piece, () => callback?.Invoke());
         }
         
         private void GoToNextPlayer()
         {
+            PositionPlayer(currentPlayer, currentPlayer.Piece);
             var index = playerList.IndexOf(currentPlayer);
             SetCurrentPlayer(playerList[(index + 1) % playerList.Count]);
             EventManager.Trigger(CameraEvents.SetReferenceTransform, currentPlayer.transform);
@@ -98,12 +106,32 @@ namespace Player.Scripts
         {
             var playersTransform = playerList.Select(player => player.transform).ToList();
             EventManager.Trigger(BoardEvents.PositionPlayers, playersTransform);
+            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, 0,
+                (pieceController) =>
+                {
+                    foreach (var player in playerList)
+                    {
+                        PositionPlayer(player, 0);
+                    }
+                });
+        }
+
+        private void PositionPlayer(PlayerController player, int piece)
+        {
+            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, piece,
+                (pieceController) =>
+                {
+                    pieceController.AddPlayer(player.transform);
+                    var point = pieceController.GetPoint(player.transform);
+                    player.GoToPosition(point);
+                });
         }
 
         private void SetCurrentPlayer(PlayerController player)
         {
             currentPlayer = player;
             EventManager.Trigger(CameraEvents.SetReferenceTransform, player.transform);
+            EventManager.Trigger(TurnEvents.SetCurrentPlayer, currentPlayer.GetName());
         }
 
         private void ShowPlayerCurrentPiece()
@@ -112,7 +140,7 @@ namespace Player.Scripts
                 (data) => currentPiece = data);
             EventManager.Trigger(MainBoardPieceEvents.Setup, currentPiece.Texture, currentPiece.Description, currentPlayer.Piece.ToString());
             EventManager.Trigger(MainBoardPieceEvents.Show);
-            EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction,"Toque para continuar",  OnFinishMove);
+            EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, Consts.TouchToContinue,  OnFinishMove);
         }
 
         private void OnFinishMove()

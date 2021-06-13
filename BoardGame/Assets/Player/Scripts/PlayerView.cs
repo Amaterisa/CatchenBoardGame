@@ -13,6 +13,11 @@ namespace Player.Scripts
         {
             nameText.text = text;
         }
+        
+        public string GetName()
+        {
+            return nameText.text;
+        }
 
         public void RotateNameToCamera()
         {

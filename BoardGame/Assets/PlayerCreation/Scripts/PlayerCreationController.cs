@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Events;
+using General.Consts;
 using General.EventManager;
 using Player.Scripts;
 using UnityEngine;
@@ -65,7 +66,7 @@ namespace PlayerCreation.Scripts
 
         private void SetupPlayer(PlayerController player, string text)
         {
-            player.SetName(String.IsNullOrEmpty(text) ? "Jogador " + playersCount : text);
+            player.SetName(String.IsNullOrEmpty(text) ? Consts.Player + " " + playersCount : text);
             player.SetColor(colors[playersCount]);
         }
 

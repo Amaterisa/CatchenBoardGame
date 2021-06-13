@@ -11,12 +11,14 @@ namespace TurnController.Scripts
         [SerializeField] private TurnView view;
         private Action inputAction;
         private bool canReceiveInput;
+        private string currentPlayerName;
 
         private void Awake()
         {
             EventManager.Register<bool>(TurnEvents.CanReceiveInput, CanReceiveInput);
             EventManager.Register<string, Action>(TurnEvents.SetupInputAction, SetupInputAction);
             EventManager.Register<string>(TurnEvents.SetText, SetText);
+            EventManager.Register<string>(TurnEvents.SetCurrentPlayer, SetCurrentPlayer);
             EventManager.Register(TurnEvents.Show, view.ShowInstantly);
         }
 
@@ -30,6 +32,7 @@ namespace TurnController.Scripts
             EventManager.Unregister<bool>(TurnEvents.CanReceiveInput, CanReceiveInput);
             EventManager.Unregister<string, Action>(TurnEvents.SetupInputAction, SetupInputAction);
             EventManager.Unregister<string>(TurnEvents.SetText, SetText);
+            EventManager.Unregister<string>(TurnEvents.SetCurrentPlayer, SetCurrentPlayer);
             EventManager.Unregister(TurnEvents.Show, view.ShowInstantly);
         }
 
@@ -47,7 +50,12 @@ namespace TurnController.Scripts
 
         private void SetText(string text)
         {
-            view.SetText(text);
+            view.SetText(currentPlayerName + ": " +text);
+        }
+        
+        private void SetCurrentPlayer(string text)
+        {
+            currentPlayerName = text;
         }
 
         private void HandlePointerDown()

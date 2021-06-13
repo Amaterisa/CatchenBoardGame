@@ -20,10 +20,20 @@ namespace Player.Scripts
         {
             context.Trigger(PlayerMovementEvents.Move, pieceTransform, callback);
         }
+        
+        public void GoToPosition(Transform point)
+        {
+            context.Trigger(PlayerMovementEvents.GoToPosition, point);
+        }
 
         public void SetName(string text)
         {
             view.SetName(text);
+        }
+        
+        public string GetName()
+        {
+            return view.GetName();
         }
 
         public void SetColor(Color color)
