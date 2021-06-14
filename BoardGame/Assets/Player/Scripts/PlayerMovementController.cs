@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Board.Scripts;
 using Events;
+using General.Consts;
 using General.EventManager;
 using General.ParabolicCalculator;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace Player.Scripts
             context.Register<int, Action>(PlayerMovementEvents.StartMove, StartMove);
             context.Register<Transform>(PlayerMovementEvents.GoToPosition, GoToPosition);
         }
-        
+
         void Start()
         {
             StartCoroutine(CoroutineCoordinator());
@@ -59,7 +60,8 @@ namespace Player.Scripts
         private void Move(bool moveForward, Action callback = null)
         {
             Transform piece = null;
-            properties.Piece += moveForward ? 1 : -1;
+            var increment = moveForward ? 1 : -1;
+            properties.Piece = Mathf.Clamp(properties.Piece + increment, 0, Consts.BoardPiecesCount - 1);
             EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, properties.Piece,
                 pieceController => piece = pieceController.transform);
             Move(piece, () => callback?.Invoke());

@@ -1,5 +1,6 @@
 ﻿using System;
 using Events;
+using General.Consts;
 using General.EventManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,12 +15,14 @@ namespace GameConfigurationMenu.Scripts
         {
             EventManager.Register<bool>(GameConfigurationMenuEvents.SetButtonsInteractable, SetButtonsInteractable);
             EventManager.Register<bool>(GameConfigurationMenuEvents.SetStartButtonInteractable, SetStartButtonInteractable);
+            EventManager.Register(GameConfigurationMenuEvents.SetEndGame, SetEndGame);
         }
         
         private void OnDestroy()
         {
             EventManager.Unregister<bool>(GameConfigurationMenuEvents.SetButtonsInteractable, SetButtonsInteractable);
             EventManager.Unregister<bool>(GameConfigurationMenuEvents.SetStartButtonInteractable, SetStartButtonInteractable);
+            EventManager.Unregister(GameConfigurationMenuEvents.SetEndGame, SetEndGame);
         }
 
         private void Start()
@@ -54,6 +57,16 @@ namespace GameConfigurationMenu.Scripts
         private void SetStartButtonInteractable(bool interactable)
         {
             view.SetStartButtonInteractable(interactable);
+        }
+
+        private void SetEndGame()
+        {
+            EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, Consts.TouchToEndGame,  EndGame);
+        }
+
+        private void EndGame()
+        {
+            //TODO: Load menu scene
         }
 
         public void OnPointerDown(PointerEventData eventData)

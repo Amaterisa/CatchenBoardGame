@@ -4,5 +4,6 @@ namespace Events
     {
         public static readonly int SetButtonsInteractable = ++ProjectEvents.EventCounter;
         public static readonly int SetStartButtonInteractable = ++ProjectEvents.EventCounter;
+        public static readonly int SetEndGame = ++ProjectEvents.EventCounter;
     }
 }

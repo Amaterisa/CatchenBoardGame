@@ -72,7 +72,7 @@ namespace PlayerCreation.Scripts
 
         private void Hide()
         {
-            view.Hide();
+            view.HideInstantly();
         }
     }
 }

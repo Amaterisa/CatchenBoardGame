@@ -11,7 +11,6 @@ namespace TurnController.Scripts
         [SerializeField] private TurnView view;
         private Action inputAction;
         private bool canReceiveInput;
-        private string currentPlayerName;
 
         private void Awake()
         {
@@ -50,12 +49,12 @@ namespace TurnController.Scripts
 
         private void SetText(string text)
         {
-            view.SetText(currentPlayerName + ": " +text);
+            view.SetText(text);
         }
         
         private void SetCurrentPlayer(string text)
         {
-            currentPlayerName = text;
+            view.SetPlayerName(text);
         }
 
         private void HandlePointerDown()

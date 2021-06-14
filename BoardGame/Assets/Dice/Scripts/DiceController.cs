@@ -17,12 +17,15 @@ namespace Dice.Scripts
         [SerializeField] private Vector3 offset = new Vector3(0, -0.5f, 3f);
         private float delay = 0.5f;
         private bool rolling;
+        private Action<int> onFinishRoll;
 
         private void Awake()
         {
             EventManager.Register(DiceEvents.Show, Show);
             EventManager.Register(DiceEvents.Hide, Hide);
             EventManager.Register(DiceEvents.SetRollDiceInputAction, SetRollDiceInputAction);
+            EventManager.Register<Action<int>>(DiceEvents.SetRollDiceCallback, SetRollDiceCallback);
+            EventManager.Register(DiceEvents.SetDefaultRollDiceCallback, SetDefaultRollDiceCallback);
         }
 
         private void OnDestroy()
@@ -30,13 +33,16 @@ namespace Dice.Scripts
             EventManager.Unregister(DiceEvents.Show, Show);
             EventManager.Unregister(DiceEvents.Hide, Hide);
             EventManager.Unregister(DiceEvents.SetRollDiceInputAction, SetRollDiceInputAction);
+            EventManager.Unregister<Action<int>>(DiceEvents.SetRollDiceCallback, SetRollDiceCallback);
+            EventManager.Unregister(DiceEvents.SetDefaultRollDiceCallback, SetDefaultRollDiceCallback);
         }
 
         private void Start()
         {
             view.HideInstantly();
-            collisionHandler.TriggerStay = HandleCollision;
+            //collisionHandler.TriggerStay = HandleCollision;
             SetRollDiceInputAction();
+            SetDefaultRollDiceCallback();
         }
 
         private void SetRollDiceInputAction()
@@ -44,14 +50,43 @@ namespace Dice.Scripts
             EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, Consts.TouchToRollTheDice, OnInputDown);
         }
 
+        private void SetRollDiceCallback(Action<int> action)
+        {
+            onFinishRoll = action;
+        }
+
+        private void SetDefaultRollDiceCallback()
+        {
+            SetRollDiceCallback(SetMoveOnFinishRoll);
+        }
+
+        private void SetMoveOnFinishRoll(int number)
+        {
+            view.Hide(() => EventManager.Trigger(PlayerManagerEvents.StartMove, number));
+        }
+
         private void OnInputDown()
         {
             Show();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             Reset();
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                FinishCollision(1);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                FinishCollision(2);
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                FinishCollision(3);
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+                FinishCollision(4);
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+                FinishCollision(5);
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+                FinishCollision(6);
+            if (Input.GetKeyDown(KeyCode.A))
+                FinishCollision(30);
         }
 
         private void Show()
@@ -60,11 +95,12 @@ namespace Dice.Scripts
             view.Show();
             CancelInvoke();
             Invoke(nameof(RollDice), delay);
+            EventManager.Trigger(TurnEvents.SetText, string.Empty);
         }
 
         private void Hide()
         {
-            view.Hide();
+            view.HideInstantly();
         }
 
         private void RollDice()
@@ -129,7 +165,7 @@ namespace Dice.Scripts
         private IEnumerator OnFinishRoll(int count)
         {
             yield return new WaitForSeconds(delay);
-            view.Hide(() => EventManager.Trigger(PlayerManagerEvents.StartMove, count));
+            onFinishRoll?.Invoke(count);
         }
     }
 }

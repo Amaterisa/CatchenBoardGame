@@ -20,6 +20,7 @@ namespace Player.Scripts
             EventManager.Register<PlayerController>(PlayerManagerEvents.AddPlayer, AddPlayer);
             EventManager.Register<PlayerController>(PlayerManagerEvents.RemovePlayer, RemovePlayer);
             EventManager.Register<int>(PlayerManagerEvents.StartMove, StartMove);
+            EventManager.Register<int>(PlayerManagerEvents.StartMoveByConsequence, StartMoveByConsequence);
             EventManager.Register(PlayerManagerEvents.GoToNextPlayer, GoToNextPlayer);
             EventManager.Register(PlayerManagerEvents.PositionPlayers, PositionPlayers);
             EventManager.Register(PlayerManagerEvents.ShowPlayerCurrentPiece, ShowPlayerCurrentPiece);
@@ -30,6 +31,7 @@ namespace Player.Scripts
             EventManager.Unregister<PlayerController>(PlayerManagerEvents.AddPlayer, AddPlayer);
             EventManager.Unregister<PlayerController>(PlayerManagerEvents.RemovePlayer, RemovePlayer);
             EventManager.Unregister<int>(PlayerManagerEvents.StartMove, StartMove);
+            EventManager.Unregister<int>(PlayerManagerEvents.StartMoveByConsequence, StartMoveByConsequence);
             EventManager.Unregister(PlayerManagerEvents.GoToNextPlayer, GoToNextPlayer);
             EventManager.Unregister(PlayerManagerEvents.PositionPlayers, PositionPlayers);
             EventManager.Unregister(PlayerManagerEvents.ShowPlayerCurrentPiece, ShowPlayerCurrentPiece);
@@ -74,6 +76,7 @@ namespace Player.Scripts
                 currentPlayer.CanPlay = true;
                 GoToNextPlayer();
             }
+            EventManager.Trigger(DiceEvents.SetDefaultRollDiceCallback);
         }
         
         private void PositionPlayers()
@@ -117,14 +120,21 @@ namespace Player.Scripts
                 data => currentPiece = data);
             EventManager.Trigger(MainBoardPieceEvents.Setup, currentPiece.Texture, currentPiece.Description, currentPlayer.Piece.ToString());
             EventManager.Trigger(MainBoardPieceEvents.Show);
-            EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, Consts.TouchToContinue,  OnFinishMove);
+            if (currentPlayer.Piece < Consts.BoardPiecesCount - 1)
+                EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, Consts.TouchToPass,  OnFinishMove);
+            else
+                EventManager.Trigger(GameConfigurationMenuEvents.SetEndGame);
         }
 
         private void OnFinishMove()
         {
             EventManager.Trigger(MainBoardPieceEvents.Hide);
+            EventManager.Trigger(TurnEvents.SetText, string.Empty);
+            currentPlayer.CanPlay = currentPiece.CanPlayOnNextRound || playerList.Count == 1;
             if (currentPiece.SpacesToMove != 0)
                 StartMoveByConsequence(currentPiece.SpacesToMove);
+            else if (currentPiece.Callback != null)
+                currentPiece.Callback?.Invoke();
             else
                 GoToNextPlayer();
         }

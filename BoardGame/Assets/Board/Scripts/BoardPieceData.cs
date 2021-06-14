@@ -11,6 +11,7 @@ namespace Board.Scripts
         [SerializeField] private int spacesToMove = 0;
         [SerializeField] private Texture texture;
         [SerializeField] private string description;
+        private Action callback;
 
         public string DisplayName
         {
@@ -40,6 +41,17 @@ namespace Board.Scripts
         { 
             get => description;
             set => description = value; 
+        }
+
+        public Action Callback
+        {
+            get => callback;
+            set => callback = value;
+        }
+
+        public bool Equals(int number)
+        {
+            return displayName.Equals(number.ToString());
         }
     }
 }
