@@ -31,7 +31,7 @@ namespace Board.Scripts
 
         private void Setup(Texture texture, string text, string number)
         {
-            view.SetTexture(texture);
+            view.Setup(texture);
             view.SetText(text, number);
         }
 

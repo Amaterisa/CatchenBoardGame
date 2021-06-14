@@ -20,7 +20,10 @@ namespace Board.Scripts
 
         public void PopulateBoard()
         {
-            InstantiatePieces();
+            foreach (Transform child in transform)
+            {
+                boardPieces.Add(child);
+            }
             index = 0;
             var localPosition = Vector3.zero;
             var localScale = Vector3.one;
@@ -41,11 +44,11 @@ namespace Board.Scripts
 
             PositionWithinLine(ref localPosition, 2, 2, false);
 
-            localScale.x = 2 + spacing;
+            localScale.z = 2 + spacing;
             boardPieces[index].localScale = localScale;
-            localPosition.x -= (localScale.x - 1)/ 2;
+            localPosition.x -= (localScale.z - 1)/ 2;
             boardPieces[index].localPosition = localPosition;
-            //boardPieces[index].forward = -transform.right;
+            boardPieces[index].forward = -transform.right;
             index +=1;
             localScale = new Vector3(1, 1, 3 + spacing * 2);
             localPosition = new Vector3(boardPieces[8].localPosition.x, 0, 3 * pieceSpacing);
@@ -75,7 +78,7 @@ namespace Board.Scripts
             }
         }
 
-        private void InstantiatePieces()
+        public void InstantiatePieces()
         {
             ClearBoardPieces();
             for (var i = 0; i < numberOfPieces; i++)
@@ -109,8 +112,15 @@ namespace Board.Scripts
             if (editorObj == null)
                 return;
 
+            if (GUILayout.Button("Position board pieces"))
+            {
+                editorObj.PopulateBoard();
+                EditorUtility.SetDirty(editorObj);
+            }
+            
             if (GUILayout.Button("Populate board"))
             {
+                editorObj.InstantiatePieces();
                 editorObj.PopulateBoard();
                 EditorUtility.SetDirty(editorObj);
             }
