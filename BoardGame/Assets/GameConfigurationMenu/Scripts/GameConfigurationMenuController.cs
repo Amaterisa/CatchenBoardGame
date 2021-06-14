@@ -4,6 +4,7 @@ using General.Consts;
 using General.EventManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 namespace GameConfigurationMenu.Scripts
 {
@@ -45,7 +46,7 @@ namespace GameConfigurationMenu.Scripts
 
         private void Back()
         {
-            //TODO: load menu
+            EndGame();
         }
 
         private void SetButtonsInteractable(bool interactable)
@@ -66,7 +67,8 @@ namespace GameConfigurationMenu.Scripts
 
         private void EndGame()
         {
-            //TODO: Load menu scene
+            EventManager.Trigger(FadeScreenEvents.Show);
+            SceneManager.LoadSceneAsync("MenuScene");
         }
 
         public void OnPointerDown(PointerEventData eventData)
