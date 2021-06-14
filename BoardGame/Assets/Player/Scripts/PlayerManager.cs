@@ -54,43 +54,12 @@ namespace Player.Scripts
                 Destroy(player.gameObject);
             }
         }
-
-        private void StartMove(int count)
-        {
-            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, currentPlayer.Piece,
-                (pieceController) =>
-                {
-                    pieceController.RemovePlayer(currentPlayer.transform);
-                    currentPlayer.GoToPosition(pieceController.transform);
-                });
-            Move(count, ShowPlayerCurrentPiece);
-        }
         
-        private void StartMoveByConsequence(int count)
+        private void SetCurrentPlayer(PlayerController player)
         {
-            Move(count, GoToNextPlayer);
-        }
-
-        private void Move(int count, Action callback)
-        {
-            var moveForward = count > 0;
-            var movementNumber = Mathf.Abs(count);
-            while (movementNumber > 1)
-            {
-                Move(moveForward);
-                movementNumber--;
-            }
-
-            Move(moveForward, callback);
-        }
-        
-        private void Move(bool moveForward, Action callback = null)
-        {
-            Transform piece = null;
-            currentPlayer.Piece += moveForward ? 1 : -1;
-            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, currentPlayer.Piece,
-                (pieceController) => piece = pieceController.transform);
-            currentPlayer.Move(piece, () => callback?.Invoke());
+            currentPlayer = player;
+            EventManager.Trigger(CameraEvents.SetReferenceTransform, player.transform);
+            EventManager.Trigger(TurnEvents.SetCurrentPlayer, currentPlayer.GetName());
         }
         
         private void GoToNextPlayer()
@@ -98,22 +67,21 @@ namespace Player.Scripts
             PositionPlayer(currentPlayer, currentPlayer.Piece);
             var index = playerList.IndexOf(currentPlayer);
             SetCurrentPlayer(playerList[(index + 1) % playerList.Count]);
-            EventManager.Trigger(CameraEvents.SetReferenceTransform, currentPlayer.transform);
-            EventManager.Trigger(DiceEvents.SetRollDiceInputAction);
+            if (currentPlayer.CanPlay)
+                EventManager.Trigger(DiceEvents.SetRollDiceInputAction);
+            else
+            {
+                currentPlayer.CanPlay = true;
+                GoToNextPlayer();
+            }
         }
-
+        
         private void PositionPlayers()
         {
             var playersTransform = playerList.Select(player => player.transform).ToList();
             EventManager.Trigger(BoardEvents.PositionPlayers, playersTransform);
-            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, 0,
-                (pieceController) =>
-                {
-                    foreach (var player in playerList)
-                    {
-                        PositionPlayer(player, 0);
-                    }
-                });
+            foreach (var player in playerList)
+                PositionPlayer(player, 0);
         }
 
         private void PositionPlayer(PlayerController player, int piece)
@@ -127,17 +95,26 @@ namespace Player.Scripts
                 });
         }
 
-        private void SetCurrentPlayer(PlayerController player)
+        private void StartMove(int count)
         {
-            currentPlayer = player;
-            EventManager.Trigger(CameraEvents.SetReferenceTransform, player.transform);
-            EventManager.Trigger(TurnEvents.SetCurrentPlayer, currentPlayer.GetName());
+            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, currentPlayer.Piece,
+                pieceController =>
+                {
+                    pieceController.RemovePlayer(currentPlayer.transform);
+                    currentPlayer.GoToPosition(pieceController.transform);
+                });
+            currentPlayer.StartMove(count, ShowPlayerCurrentPiece);
+        }
+        
+        private void StartMoveByConsequence(int count)
+        {
+            currentPlayer.StartMove(count, GoToNextPlayer);
         }
 
         private void ShowPlayerCurrentPiece()
         {
             EventManager.Trigger<int, Action<BoardPieceData>>(BoardEvents.GetBoardPieceData, currentPlayer.Piece,
-                (data) => currentPiece = data);
+                data => currentPiece = data);
             EventManager.Trigger(MainBoardPieceEvents.Setup, currentPiece.Texture, currentPiece.Description, currentPlayer.Piece.ToString());
             EventManager.Trigger(MainBoardPieceEvents.Show);
             EventManager.Trigger<string, Action>(TurnEvents.SetupInputAction, Consts.TouchToContinue,  OnFinishMove);
@@ -146,7 +123,7 @@ namespace Player.Scripts
         private void OnFinishMove()
         {
             EventManager.Trigger(MainBoardPieceEvents.Hide);
-            if (currentPiece.SpacesToMove > 0)
+            if (currentPiece.SpacesToMove != 0)
                 StartMoveByConsequence(currentPiece.SpacesToMove);
             else
                 GoToNextPlayer();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Board.Scripts;
 using Events;
 using General.EventManager;
 using General.ParabolicCalculator;
@@ -11,13 +12,14 @@ namespace Player.Scripts
     public class PlayerMovementController : MonoBehaviour
     {
         [SerializeField] private ContextEventManager context;
+        [SerializeField] private PlayerProperties properties;
         [SerializeField] private float movementDuration = 0.5f;
         private float delayToCallback = 0.1f;
         private readonly Queue<IEnumerator> coroutineQueue = new Queue<IEnumerator> ();
 
         private void Awake()
         {
-            context.Register<Transform, Action>(PlayerMovementEvents.Move, Move);
+            context.Register<int, Action>(PlayerMovementEvents.StartMove, StartMove);
             context.Register<Transform>(PlayerMovementEvents.GoToPosition, GoToPosition);
         }
         
@@ -38,37 +40,43 @@ namespace Player.Scripts
 
         private void GoToPosition(Transform position)
         {
-            
-            coroutineQueue.Enqueue(GoToPositionCoroutine(position, movementDuration / 2));
+            coroutineQueue.Enqueue(MoveCoroutine(position, movementDuration / 2, false, false));
         }
         
-        private IEnumerator GoToPositionCoroutine(Transform pieceTransform, float duration)
+        private void StartMove(int count, Action callback)
         {
-            var initialPosition = transform.position;
-            var piecePosition = pieceTransform.position;
-            piecePosition.y = initialPosition.y;
-            var t = 0.0f;
-            while (t < 1f)
+            var moveForward = count > 0;
+            var movementNumber = Mathf.Abs(count);
+            while (movementNumber > 1)
             {
-                t = Mathf.Clamp01(t + Time.deltaTime / duration);
-                transform.localPosition = Vector3.Lerp(initialPosition, piecePosition, t);
-                yield return null;
+                Move(moveForward);
+                movementNumber--;
             }
 
-            transform.localPosition = piecePosition;
+            Move(moveForward, callback);
+        }
+        
+        private void Move(bool moveForward, Action callback = null)
+        {
+            Transform piece = null;
+            properties.Piece += moveForward ? 1 : -1;
+            EventManager.Trigger<int, Action<BoardPieceController>>(BoardEvents.GetBoardPiece, properties.Piece,
+                pieceController => piece = pieceController.transform);
+            Move(piece, () => callback?.Invoke());
         }
 
         private void Move(Transform pieceTransform, Action callback)
         {
-            coroutineQueue.Enqueue(MoveCoroutine(pieceTransform, movementDuration, callback));
+            coroutineQueue.Enqueue(MoveCoroutine(pieceTransform, movementDuration, true, true, callback));
         }
 
-        private IEnumerator MoveCoroutine(Transform pieceTransform, float duration, Action callback = null)
+        private IEnumerator MoveCoroutine(Transform pieceTransform, float duration, bool delay = true, bool setRotation = true, Action callback = null)
         {
             var initialPosition = transform.position;
             var piecePosition = pieceTransform.position;
             piecePosition.y = initialPosition.y;
-            SetRotation(initialPosition, piecePosition);
+            if (setRotation)
+                SetRotation(initialPosition, piecePosition);
 
             var t = 0.0f;
             while (t < 1f)
@@ -79,7 +87,8 @@ namespace Player.Scripts
             }
 
             transform.localPosition = piecePosition;
-            yield return new WaitForSeconds(delayToCallback);
+            if (delay)
+                yield return new WaitForSeconds(delayToCallback);
             callback?.Invoke();
         }
 
