@@ -40,7 +40,7 @@ namespace Dice.Scripts
         private void Start()
         {
             view.HideInstantly();
-            //collisionHandler.TriggerStay = HandleCollision;
+            collisionHandler.TriggerStay = HandleCollision;
             SetRollDiceInputAction();
             SetDefaultRollDiceCallback();
         }
@@ -73,20 +73,6 @@ namespace Dice.Scripts
         private void LateUpdate()
         {
             Reset();
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                FinishCollision(1);
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                FinishCollision(2);
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-                FinishCollision(3);
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-                FinishCollision(4);
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-                FinishCollision(5);
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-                FinishCollision(6);
-            if (Input.GetKeyDown(KeyCode.A))
-                FinishCollision(30);
         }
 
         private void Show()

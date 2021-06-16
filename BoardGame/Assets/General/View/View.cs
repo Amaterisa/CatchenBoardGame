@@ -31,6 +31,13 @@ namespace General.View
             }));
         }
 
+        public void SetAlpha(float alpha)
+        {
+            gameObject.SetActive(true);
+            StopFadeCoroutine();
+            canvasGroup.alpha = alpha;
+        }
+
         public void ShowInstantly()
         {
             canvasGroup.alpha = 1f;

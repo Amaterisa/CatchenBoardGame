@@ -8,10 +8,12 @@ namespace TurnController.Scripts
     {
         [SerializeField] private Text text;
         [SerializeField] private Text playerName;
+        [SerializeField] private GameObject background;
 
         public void SetText(string txt)
         {
             text.text = txt;
+            background.SetActive(!string.IsNullOrEmpty(txt));
         }
         
         public void SetPlayerName(string txt)

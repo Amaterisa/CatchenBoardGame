@@ -1,4 +1,5 @@
-﻿using General.View;
+﻿using System.Collections.Generic;
+using General.View;
 using TMPro;
 using UnityEngine;
 
@@ -7,7 +8,8 @@ namespace Player.Scripts
     public class PlayerView : View3D
     {
         [SerializeField] private TextMeshPro nameText;
-        private static readonly int Color1 = Shader.PropertyToID("_Color");
+        [SerializeField] private List<MeshRenderer> eyesRenderer = new List<MeshRenderer>();
+        private static readonly int ColorProperty = Shader.PropertyToID("_Color");
 
         public void SetName(string text)
         {
@@ -29,7 +31,8 @@ namespace Player.Scripts
         {
             foreach (var meshRenderer in meshRenderers)
             {
-                meshRenderer.material.SetColor(Color1, color);
+                if (!eyesRenderer.Contains(meshRenderer))
+                    meshRenderer.material.SetColor(ColorProperty, color);
             }
         }
     }

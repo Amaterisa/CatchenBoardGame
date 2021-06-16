@@ -31,12 +31,14 @@ namespace TextFieldPopup.Scripts
         private void Show()
         {
             view.Show();
+            EventManager.Trigger(FadeScreenEvents.SetAlpha);
             EventManager.Trigger(GameConfigurationMenuEvents.SetButtonsInteractable, false);
         }
 
         private void Hide()
         {
             view.Hide();
+            EventManager.Trigger(FadeScreenEvents.HideInstantly);
             EventManager.Trigger(GameConfigurationMenuEvents.SetButtonsInteractable, true);
         }
 
