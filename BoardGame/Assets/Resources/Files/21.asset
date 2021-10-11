@@ -15,5 +15,5 @@ MonoBehaviour:
   displayName: 21
   canPlayOnNextRound: 1
   spacesToMove: -10
-  texture: {fileID: 2800000, guid: c7af72faf774044b3bbdba09c7c5eaed, type: 3}
+  texture: {fileID: 2800000, guid: 095cde4574f62458da5f6e6f8dcebe83, type: 3}
   description: Volte 10 casas
