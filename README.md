@@ -1,2 +1,2 @@
-# GretchenBoardGame
-A drinking board game of the meme queen
+# Catchen Boardgame
+A drinking game with my pets as part of the board
